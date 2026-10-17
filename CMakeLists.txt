@@ -18,7 +18,8 @@ add_custom_target(run_p0_probe
 
 add_library(pcnet_core STATIC
   src/core/network_view.cpp
-  src/core/storage.cpp)
+  src/core/storage.cpp
+  src/core/error_model.cpp)
 target_include_directories(pcnet_core PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 target_compile_features(pcnet_core PUBLIC cxx_std_17)
 add_executable(network_view_test tests/core/network_view_test.cpp)
@@ -27,3 +28,12 @@ add_test(NAME network_view COMMAND network_view_test)
 add_executable(storage_test tests/core/storage_test.cpp)
 target_link_libraries(storage_test PRIVATE pcnet_core)
 add_test(NAME storage COMMAND storage_test)
+add_executable(temporal_support_test tests/core/temporal_support_test.cpp)
+target_link_libraries(temporal_support_test PRIVATE pcnet_core)
+add_test(NAME temporal_support COMMAND temporal_support_test)
+add_executable(timing_policy_test tests/core/timing_policy_test.cpp)
+target_link_libraries(timing_policy_test PRIVATE pcnet_core)
+add_test(NAME timing_policy COMMAND timing_policy_test)
+add_executable(model_metrics_test tests/core/model_metrics_test.cpp)
+target_link_libraries(model_metrics_test PRIVATE pcnet_core)
+add_test(NAME model_metrics COMMAND model_metrics_test)
