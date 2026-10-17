@@ -15,3 +15,15 @@ add_custom_target(run_p0_probe
   COMMAND pcnet_p0_probe --env "${CMAKE_PREFIX_PATH}" --output "${CMAKE_CURRENT_BINARY_DIR}/p0_probe.json"
   DEPENDS pcnet_p0_probe
   USES_TERMINAL)
+
+add_library(pcnet_core STATIC
+  src/core/network_view.cpp
+  src/core/storage.cpp)
+target_include_directories(pcnet_core PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_compile_features(pcnet_core PUBLIC cxx_std_17)
+add_executable(network_view_test tests/core/network_view_test.cpp)
+target_link_libraries(network_view_test PRIVATE pcnet_core)
+add_test(NAME network_view COMMAND network_view_test)
+add_executable(storage_test tests/core/storage_test.cpp)
+target_link_libraries(storage_test PRIVATE pcnet_core)
+add_test(NAME storage COMMAND storage_test)
