@@ -1,30 +1,17 @@
 cmake_minimum_required(VERSION 3.20)
 project(PCNet LANGUAGES CXX)
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
-include(CTest)
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 enable_testing()
-
-add_executable(pcnet_temporal_support_test
-  tests/temporal_support_test.cpp
-)
-target_include_directories(pcnet_temporal_support_test PRIVATE include)
-target_compile_options(pcnet_temporal_support_test PRIVATE -Wall -Wextra -Wpedantic)
-add_test(NAME temporal_support COMMAND pcnet_temporal_support_test)
-
-add_executable(pcnet_error_model_test
-  tests/error_model_test.cpp
-)
-target_include_directories(pcnet_error_model_test PRIVATE include)
-target_compile_options(pcnet_error_model_test PRIVATE -Wall -Wextra -Wpedantic)
-add_test(NAME error_model COMMAND pcnet_error_model_test)
-
-add_executable(pcnet_observation_timing_test
-  tests/observation_timing_test.cpp
-)
-target_include_directories(pcnet_observation_timing_test PRIVATE include)
-target_compile_options(pcnet_observation_timing_test PRIVATE -Wall -Wextra -Wpedantic)
-add_test(NAME observation_timing COMMAND pcnet_observation_timing_test)
+add_executable(pcnet_p0_probe tools/p0_probe.cpp)
+target_compile_features(pcnet_p0_probe PRIVATE cxx_std_17)
+find_package(Qt6 REQUIRED COMPONENTS Core Core5Compat)
+find_package(Isis10 REQUIRED)
+target_link_libraries(pcnet_p0_probe PRIVATE Isis10::isis Qt6::Core Qt6::Core5Compat)
+add_executable(p0_probe_test tests/p0_probe_test.cpp)
+add_test(NAME p0_probe COMMAND p0_probe_test "${CMAKE_CURRENT_BINARY_DIR}/p0_probe.json")
+add_custom_target(run_p0_probe
+  COMMAND pcnet_p0_probe --env "${CMAKE_PREFIX_PATH}" --output "${CMAKE_CURRENT_BINARY_DIR}/p0_probe.json"
+  DEPENDS pcnet_p0_probe
+  USES_TERMINAL)
