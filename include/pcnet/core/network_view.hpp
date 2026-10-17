@@ -5,6 +5,7 @@
 #include <vector>
 
 namespace pcnet {
+constexpr std::uint8_t kStateDisabled = 1u;
 struct TemporalInterval { double start = 0.0; double end = 0.0; double weight = 1.0; };
 struct TemporalSupport { std::vector<TemporalInterval> intervals; };
 struct ImageRecord {
