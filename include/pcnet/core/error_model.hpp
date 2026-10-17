@@ -6,6 +6,7 @@
 
 namespace pcnet {
 enum class ErrorModel { Constant, Velocity, Acceleration };
+struct ObservationTiming { TemporalSupport support; TimingSource source = TimingSource::Unavailable; bool degraded = false; };
 struct TemporalMoments { double mean = 0.0; double second = 0.0; double total_weight = 0.0; };
 struct ModelConfig { std::uint32_t time_bins = 8; double regularization = 1e-9; };
 struct ModelMetrics {

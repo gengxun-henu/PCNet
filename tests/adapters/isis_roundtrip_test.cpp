@@ -22,6 +22,7 @@ int main() {
   auto view = pcnet::ControlNetAdapter::read(input);
   assert(view.images.size() == 1);
   assert(view.points.size() == 1);
+  assert(view.points[0].id == "P1");
   assert(view.measures.size() == 1);
   assert(view.measures[0].sample == 10.0);
   view.measures[0].state_flags = 1;
@@ -30,6 +31,7 @@ int main() {
   auto roundtrip = pcnet::ControlNetAdapter::read(output);
   assert(roundtrip.measures.size() == 1);
   assert(roundtrip.measures[0].state_flags == 1);
+  assert(roundtrip.points[0].id == "P1");
   std::filesystem::remove(input);
   std::filesystem::remove(output);
   std::filesystem::remove(output.string() + ".audit.json");

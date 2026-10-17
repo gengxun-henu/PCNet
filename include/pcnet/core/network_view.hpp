@@ -14,13 +14,16 @@ struct ImageRecord {
 };
 struct PointRecord {
   std::uint32_t point_index = 0; std::uint8_t state_flags = 0;
-  std::uint64_t measure_begin = 0; std::uint32_t measure_count = 0;
+  std::uint64_t measure_begin = 0; std::uint32_t measure_count = 0; std::string id;
 };
+enum class TimingSource : std::uint8_t { DetectorInterval = 0, EphemerisMidpoint = 1, LineInterpolation = 2, Unavailable = 3 };
 struct MeasureRecord {
   std::uint32_t image_index = 0; std::uint32_t point_index = 0;
   double sample = 0.0; double line = 0.0; TemporalSupport timing;
   double quality_weight = 1.0; std::uint8_t state_flags = 0;
   ReasonCode reason_code = ReasonCode::None;
+  TimingSource timing_source = TimingSource::Unavailable;
+  bool timing_degraded = false;
 };
 struct NetworkView {
   std::vector<ImageRecord> images; std::vector<PointRecord> points;
