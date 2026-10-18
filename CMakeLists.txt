@@ -11,6 +11,10 @@ find_package(Isis10 REQUIRED)
 target_link_libraries(pcnet_p0_probe PRIVATE Isis10::isis Qt6::Core Qt6::Core5Compat)
 add_executable(p0_probe_test tests/p0_probe_test.cpp)
 add_test(NAME p0_probe COMMAND p0_probe_test "${CMAKE_CURRENT_BINARY_DIR}/p0_probe.json")
+add_test(NAME p0_probe_generate
+  COMMAND pcnet_p0_probe --env "${CMAKE_PREFIX_PATH}" --output "${CMAKE_CURRENT_BINARY_DIR}/p0_probe.json")
+set_tests_properties(p0_probe_generate PROPERTIES FIXTURES_SETUP p0_probe_report)
+set_tests_properties(p0_probe PROPERTIES FIXTURES_REQUIRED p0_probe_report)
 add_custom_target(run_p0_probe
   COMMAND pcnet_p0_probe --env "${CMAKE_PREFIX_PATH}" --output "${CMAKE_CURRENT_BINARY_DIR}/p0_probe.json"
   DEPENDS pcnet_p0_probe
