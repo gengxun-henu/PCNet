@@ -140,7 +140,7 @@
     {
       "id": "milestone-03-quality",
       "title": "三级模型感知质量评价",
-      "status": "pending",
+      "status": "in_progress",
       "dependencies": [
         "milestone-02-timing-core"
       ],
@@ -159,7 +159,7 @@
         ],
         "prerequisites": []
       },
-      "last_session_date": null,
+      "last_session_date": "2026-10-19",
       "last_close_outcome": null,
       "blocker": null,
       "completion_evidence": null
