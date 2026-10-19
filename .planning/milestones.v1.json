@@ -79,7 +79,7 @@
     {
       "id": "milestone-02-timing-core",
       "title": "时间契约与核心模型完善",
-      "status": "pending",
+      "status": "in_progress",
       "dependencies": [
         "milestone-01-p0-isis"
       ],
@@ -98,7 +98,7 @@
         ],
         "prerequisites": []
       },
-      "last_session_date": null,
+      "last_session_date": "2026-10-19",
       "last_close_outcome": null,
       "blocker": null,
       "completion_evidence": null
