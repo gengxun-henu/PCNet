@@ -201,7 +201,7 @@
     {
       "id": "milestone-04-thinning",
       "title": "模型感知质量保持抽稀",
-      "status": "pending",
+      "status": "in_progress",
       "dependencies": [
         "milestone-03-quality"
       ],
@@ -221,7 +221,7 @@
         ],
         "prerequisites": []
       },
-      "last_session_date": null,
+      "last_session_date": "2026-10-19",
       "last_close_outcome": null,
       "blocker": null,
       "completion_evidence": null
