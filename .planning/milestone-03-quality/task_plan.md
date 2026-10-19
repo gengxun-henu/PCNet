@@ -27,7 +27,7 @@ ImageQuality、PairQuality、NetworkQuality 指标和定义元数据覆盖 SPEC 
 
 ## Next Step
 
-Review the source plans and begin the first uncompleted valid-input task.
+None — milestone complete.
 
 ## Current Phase
 
@@ -37,8 +37,8 @@ Phase 1
 
 ### Phase 1: Milestone execution
 
-- [ ] Produce and verify the declared milestone evidence
-- **Status:** pending
+- [x] Produce and verify the declared milestone evidence
+- **Status:** complete
 
 ## Decisions Made
 

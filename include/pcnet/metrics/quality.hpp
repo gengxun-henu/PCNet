@@ -10,6 +10,8 @@ struct QualityMetadata { std::uint32_t time_bins = 8; std::string denominator; s
 struct ImageQuality {
   std::uint32_t image_index = 0; std::uint64_t n_points = 0, n_measures = 0, n_neighbors = 0;
   double time_coverage = 0.0, cross_track_coverage = 0.0, max_time_gap = 0.0;
+  std::vector<double> time_bins; std::vector<double> cross_track_bins;
+  double start_coverage = 0.0, middle_coverage = 0.0, end_coverage = 0.0;
   std::size_t design_rank = 0; double condition_number = 0.0; bool sparse = false;
   std::vector<std::string> warning_flags;
 };
