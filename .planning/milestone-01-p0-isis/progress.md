@@ -8,8 +8,14 @@
 
 ### Initialized 2026-10-19
 
-- **Status:** pending
+- **Status:** complete
 - Created the durable milestone plan from the reviewed manifest.
+
+### P0 execution 2026-10-19
+
+- Added a self-contained CTest fixture that generates the probe report before validation.
+- Extended `pcnet_p0_probe` with native ControlNet write/reopen verification, ABI pointer width, and explicit runtime camera-context status.
+- Updated `docs/validation/P0_REPORT.md` and `docs/p0/p0_probe.json` with reproducible evidence.
 
 ## Test Results
 
@@ -20,6 +26,7 @@
 
 | Path | Status | Evidence |
 |---|---|---|
+| `/home/gengxun/miniconda3/envs/asp370` | verified | ISIS headers/library and native ControlNet round trip |
 
 ## Git Evidence
 
@@ -31,9 +38,9 @@
 
 | Question | Answer |
 |---|---|
-| Where am I? | Milestone `milestone-01-p0-isis` is pending |
+| Where am I? | Milestone `milestone-01-p0-isis` is complete |
 | Where am I going? | Its declared completion gate |
 | What's the goal? | See `task_plan.md` Goal |
 | What have I learned? | See `findings.md` |
 | What have I done? | Initialized durable state |
-| What am I about to do? | See `task_plan.md` Next Step |
+| What am I about to do? | Activate `milestone-02-timing-core` after PR merge and local main sync |

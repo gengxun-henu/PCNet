@@ -4,7 +4,7 @@
 在已合并的 PCNet 首期骨架之上，完成真实 ISIS 时间映射、模型感知质量评价与抽稀、可审计粗差过滤、CLI 完整流程和 1M 规模证据，使软件从可运行骨架进入可用于真实 ControlNet 数据的首个稳定版本。
 
 ## Next Step
-执行 P0 只读核验：验证 ISIS 10 的 ControlNet 最小读写、DetectorMap 时间来源、CMake/ABI 信息，并将结果写入 `docs/validation/P0_REPORT.md`。
+P0 已完成；下一步进入 Milestone 2，验证真实 DetectorMap 曝光区间、midpoint 和按影像归一化时间契约。
 
 ## Current Phase
 Phase 1: P0 环境与真实数据能力核验
@@ -12,12 +12,12 @@ Phase 1: P0 环境与真实数据能力核验
 ## Phases
 
 ### Phase 1: P0 环境与真实数据能力核验
-- [ ] 核验 ISIS 10 头文件、库、ABI、CMake 导出和编译器信息
-- [ ] 完成真实 ControlNet 最小读写往返
+- [x] 核验 ISIS 10 头文件、库、ABI、CMake 导出和编译器信息
+- [x] 完成真实 ControlNet 最小读写往返
 - [ ] 验证 DetectorMap 曝光区间、midpoint 降级和行号插值能力
-- [ ] 明确 JIGSAW 可验证模型/约束事实；未验证内容不得进入接口
-- [ ] 记录 P0 报告、命令、输入摘要和失败原因
-- **Status:** in_progress
+- [x] 明确 JIGSAW 可验证模型/约束事实；未验证内容不得进入接口
+- [x] 记录 P0 报告、命令、输入摘要和失败原因
+- **Status:** complete
 
 ### Phase 2: 时间契约与核心数据模型完善
 - [ ] 统一 `TimingSource`/`ObservationTiming` 定义，消除重复头文件

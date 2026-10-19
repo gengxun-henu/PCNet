@@ -27,7 +27,7 @@ P0 报告可复现，真实 ControlNet 最小读写和 DetectorMap 时间能力�
 
 ## Next Step
 
-Review the source plans and begin the first uncompleted valid-input task.
+Milestone complete; activate milestone-02-timing-core after PR merge and local main synchronization.
 
 ## Current Phase
 
@@ -37,8 +37,8 @@ Phase 1
 
 ### Phase 1: Milestone execution
 
-- [ ] Produce and verify the declared milestone evidence
-- **Status:** in_progress
+- [x] Produce and verify the declared milestone evidence
+- **Status:** complete
 
 ## Decisions Made
 

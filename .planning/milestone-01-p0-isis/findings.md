@@ -7,6 +7,10 @@
 ## Verified Facts
 
 - Milestone ID: `milestone-01-p0-isis`.
+- ISIS environment `/home/gengxun/miniconda3/envs/asp370` contains `ControlNet.h`, `PushFrameCameraDetectorMap.h`, and `libisis10.0.0.so`.
+- Native ControlNet construction, PVL write, reopen, and point/measure count round trip passed.
+- Probe report records compiler `12.4.0`, 64-bit pointers, and compile-time DetectorMap header availability.
+- A bare ControlNet does not provide runtime camera context for observation-specific exposure intervals; this remains the explicit next-milestone boundary.
 
 ## Evidence-Based Inference
 
@@ -14,7 +18,7 @@
 
 ## Unresolved Items
 
-- Completion evidence has not yet been produced.
+- Completion evidence is prepared in the milestone close command.
 
 ## Decisions
 
