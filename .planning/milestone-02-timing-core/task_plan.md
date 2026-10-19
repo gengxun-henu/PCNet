@@ -27,7 +27,7 @@ TimingSource/ObservationTiming 唯一化，按影像或采集组归一化时间�
 
 ## Next Step
 
-Milestone complete; activate milestone-03-quality after PR merge and local main synchronization.
+None — milestone complete.
 
 ## Current Phase
 

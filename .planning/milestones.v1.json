@@ -79,7 +79,7 @@
     {
       "id": "milestone-02-timing-core",
       "title": "时间契约与核心模型完善",
-      "status": "in_progress",
+      "status": "complete",
       "dependencies": [
         "milestone-01-p0-isis"
       ],
@@ -99,9 +99,43 @@
         "prerequisites": []
       },
       "last_session_date": "2026-10-19",
-      "last_close_outcome": null,
+      "last_close_outcome": "complete",
       "blocker": null,
-      "completion_evidence": null
+      "completion_evidence": {
+        "schema_version": 1,
+        "milestone_id": "milestone-02-timing-core",
+        "verified_at": "2026-10-19T06:17:59Z",
+        "git": {
+          "status": "clean",
+          "porcelain_v1_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "commit": "9f325270fc3e8667820a80041d4682e2ce3fa063"
+        },
+        "tests": [
+          {
+            "id": "timing-contract",
+            "command": "ctest --test-dir build -R timing_contract --output-on-failure",
+            "passed": 1,
+            "failed": 0,
+            "skipped": 0,
+            "exit_code": 0
+          },
+          {
+            "id": "model-metrics",
+            "command": "ctest --test-dir build -R 'timing_policy|model_metrics' --output-on-failure",
+            "passed": 2,
+            "failed": 0,
+            "skipped": 0,
+            "exit_code": 0
+          }
+        ],
+        "artifacts": [
+          {
+            "path": "docs/validation/timing-report.json",
+            "sha256": "d62569726e2fe8bb914153c574b0e90c5edc174fa1e53b0e3c9e9cad570c173a"
+          }
+        ],
+        "prerequisites": []
+      }
     },
     {
       "id": "milestone-03-quality",
