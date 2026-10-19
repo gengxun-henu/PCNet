@@ -11,7 +11,7 @@
     {
       "id": "milestone-01-p0-isis",
       "title": "P0 ISIS 10 / ControlNet / DetectorMap 核验",
-      "status": "in_progress",
+      "status": "complete",
       "dependencies": [],
       "plan_dir": ".planning/milestone-01-p0-isis",
       "source_plans": [
@@ -31,9 +31,50 @@
         ]
       },
       "last_session_date": "2026-10-19",
-      "last_close_outcome": null,
+      "last_close_outcome": "complete",
       "blocker": null,
-      "completion_evidence": null
+      "completion_evidence": {
+        "schema_version": 1,
+        "milestone_id": "milestone-01-p0-isis",
+        "verified_at": "2026-10-19T00:30:00Z",
+        "git": {
+          "status": "clean",
+          "porcelain_v1_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "commit": "2cf5de8630ac61d4a13e60f45fd821e83375b9ff"
+        },
+        "tests": [
+          {
+            "id": "p0-probe",
+            "command": "ctest --test-dir build -R p0_probe --output-on-failure",
+            "passed": 2,
+            "failed": 0,
+            "skipped": 0,
+            "exit_code": 0
+          },
+          {
+            "id": "controlnet-roundtrip",
+            "command": "ctest --test-dir build -R isis_roundtrip --output-on-failure",
+            "passed": 1,
+            "failed": 0,
+            "skipped": 0,
+            "exit_code": 0
+          }
+        ],
+        "artifacts": [
+          {
+            "path": "docs/validation/P0_REPORT.md",
+            "sha256": "839f14678978ef99eb420fee42ffee5115d05c70c8f19bc03dd1f0dedf8f6b90"
+          }
+        ],
+        "prerequisites": [
+          {
+            "id": "isis10-env",
+            "path": "/home/gengxun/miniconda3/envs/asp370/lib/libisis10.0.0.so",
+            "status": "verified",
+            "sha256": "361bb719aaff7e1eec4b4b6f6620ff3b698849c5f8bc63d8ca1c2d28c2a1565f"
+          }
+        ]
+      }
     },
     {
       "id": "milestone-02-timing-core",

@@ -27,7 +27,7 @@ P0 报告可复现，真实 ControlNet 最小读写和 DetectorMap 时间能力�
 
 ## Next Step
 
-Milestone complete; activate milestone-02-timing-core after PR merge and local main synchronization.
+None — milestone complete.
 
 ## Current Phase
 
