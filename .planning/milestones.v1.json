@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "project_id": "pcnet",
+  "title": "PCNet staged development",
+  "created_date": "2026-10-19",
+  "document_header": "# PCNet Milestone Registry\n\n每个里程碑完成后必须通过新鲜验证、创建 PR、合并远程 main，并同步本地 main。",
+  "branch": "fix/p0-probe-ctest-fixture",
+  "worktree": ".",
+  "initial_commit": "5a8bf6443eb299dcb28e4a81f3e5950fc55267fd",
+  "milestones": [
+    {
+      "id": "milestone-01-p0-isis",
+      "title": "P0 ISIS 10 / ControlNet / DetectorMap 核验",
+      "status": "in_progress",
+      "dependencies": [],
+      "plan_dir": ".planning/milestone-01-p0-isis",
+      "source_plans": [
+        ".planning/2026-10-19-pcnet-next-development/task_plan.md#phase-1"
+      ],
+      "completion_gate": "P0 报告可复现，真实 ControlNet 最小读写和 DetectorMap 时间能力有明确证据；未验证 API 被明确列为未知。",
+      "completion_requirements": {
+        "tests": [
+          "p0-probe",
+          "controlnet-roundtrip"
+        ],
+        "artifacts": [
+          "docs/validation/P0_REPORT.md"
+        ],
+        "prerequisites": [
+          "isis10-env"
+        ]
+      },
+      "last_session_date": "2026-10-19",
+      "last_close_outcome": null,
+      "blocker": null,
+      "completion_evidence": null
+    },
+    {
+      "id": "milestone-02-timing-core",
+      "title": "时间契约与核心模型完善",
+      "status": "pending",
+      "dependencies": [
+        "milestone-01-p0-isis"
+      ],
+      "plan_dir": ".planning/milestone-02-timing-core",
+      "source_plans": [
+        ".planning/2026-10-19-pcnet-next-development/task_plan.md#phase-2"
+      ],
+      "completion_gate": "TimingSource/ObservationTiming 唯一化，按影像或采集组归一化时间，区间/midpoint/缺失时间/多通道测试通过。",
+      "completion_requirements": {
+        "tests": [
+          "timing-contract",
+          "model-metrics"
+        ],
+        "artifacts": [
+          "docs/validation/timing-report.json"
+        ],
+        "prerequisites": []
+      },
+      "last_session_date": null,
+      "last_close_outcome": null,
+      "blocker": null,
+      "completion_evidence": null
+    },
+    {
+      "id": "milestone-03-quality",
+      "title": "三级模型感知质量评价",
+      "status": "pending",
+      "dependencies": [
+        "milestone-02-timing-core"
+      ],
+      "plan_dir": ".planning/milestone-03-quality",
+      "source_plans": [
+        ".planning/2026-10-19-pcnet-next-development/task_plan.md#phase-3"
+      ],
+      "completion_gate": "ImageQuality、PairQuality、NetworkQuality 指标和定义元数据覆盖 SPEC 要求，并通过合成与真实子集测试。",
+      "completion_requirements": {
+        "tests": [
+          "quality-metrics",
+          "quality-report-schema"
+        ],
+        "artifacts": [
+          "docs/validation/quality-report.json"
+        ],
+        "prerequisites": []
+      },
+      "last_session_date": null,
+      "last_close_outcome": null,
+      "blocker": null,
+      "completion_evidence": null
+    },
+    {
+      "id": "milestone-04-thinning",
+      "title": "模型感知质量保持抽稀",
+      "status": "pending",
+      "dependencies": [
+        "milestone-03-quality"
+      ],
+      "plan_dir": ".planning/milestone-04-thinning",
+      "source_plans": [
+        ".planning/2026-10-19-pcnet-next-development/task_plan.md#phase-4"
+      ],
+      "completion_gate": "抽稀实现保护项、连通性、覆盖、模型秩/条件数/预测方差硬约束和确定性信息增益，并完成基线对比。",
+      "completion_requirements": {
+        "tests": [
+          "thinning-constraints",
+          "thinning-determinism",
+          "thinning-baseline"
+        ],
+        "artifacts": [
+          "docs/validation/thinning-results.json"
+        ],
+        "prerequisites": []
+      },
+      "last_session_date": null,
+      "last_close_outcome": null,
+      "blocker": null,
+      "completion_evidence": null
+    },
+    {
+      "id": "milestone-05-filter-writeback",
+      "title": "可审计粗差过滤与 ISIS 写回",
+      "status": "pending",
+      "dependencies": [
+        "milestone-04-thinning"
+      ],
+      "plan_dir": ".planning/milestone-05-filter-writeback",
+      "source_plans": [
+        ".planning/2026-10-19-pcnet-next-development/task_plan.md#phase-5"
+      ],
+      "completion_gate": "粗差过滤多轮迭代、MAD/DOM 辅助证据、硬约束重检、ID/状态/原因码/sidecar/compact 往返均有证据。",
+      "completion_requirements": {
+        "tests": [
+          "outlier-filter",
+          "isis-audit-roundtrip"
+        ],
+        "artifacts": [
+          "docs/validation/filter-writeback.json"
+        ],
+        "prerequisites": []
+      },
+      "last_session_date": null,
+      "last_close_outcome": null,
+      "blocker": null,
+      "completion_evidence": null
+    },
+    {
+      "id": "milestone-06-cli-scale",
+      "title": "完整 CLI 与百万级发布证据",
+      "status": "pending",
+      "dependencies": [
+        "milestone-05-filter-writeback"
+      ],
+      "plan_dir": ".planning/milestone-06-cli-scale",
+      "source_plans": [
+        ".planning/2026-10-19-pcnet-next-development/task_plan.md#phase-6"
+      ],
+      "completion_gate": "五个 CLI 命令完成 ControlNet 流程，1M 验收记录时间/内存/I/O/哈希，完整回归和复现文档通过。",
+      "completion_requirements": {
+        "tests": [
+          "cli-contract",
+          "one-million",
+          "full-regression"
+        ],
+        "artifacts": [
+          "docs/validation/1M_RESULTS.md"
+        ],
+        "prerequisites": []
+      },
+      "last_session_date": null,
+      "last_close_outcome": null,
+      "blocker": null,
+      "completion_evidence": null
+    },
+    {
+      "id": "milestone-07-paper-followup",
+      "title": "论文规格与后续模块规划",
+      "status": "pending",
+      "dependencies": [
+        "milestone-06-cli-scale"
+      ],
+      "plan_dir": ".planning/milestone-07-paper-followup",
+      "source_plans": [
+        ".planning/2026-10-19-pcnet-next-development/task_plan.md#phase-7"
+      ],
+      "completion_gate": "PCNet_PAPER_SPEC.md、实验矩阵、独立检查点和 C4/PCMatch 后续规格完成并经审阅。",
+      "completion_requirements": {
+        "tests": [
+          "paper-spec-consistency"
+        ],
+        "artifacts": [
+          "docs/PCNet_PAPER_SPEC.md"
+        ],
+        "prerequisites": []
+      },
+      "last_session_date": null,
+      "last_close_outcome": null,
+      "blocker": null,
+      "completion_evidence": null
+    }
+  ]
+}
