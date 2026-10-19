@@ -27,7 +27,7 @@ TimingSource/ObservationTiming 唯一化，按影像或采集组归一化时间�
 
 ## Next Step
 
-Review the source plans and begin the first uncompleted valid-input task.
+Milestone complete; activate milestone-03-quality after PR merge and local main synchronization.
 
 ## Current Phase
 
@@ -37,8 +37,8 @@ Phase 1
 
 ### Phase 1: Milestone execution
 
-- [ ] Produce and verify the declared milestone evidence
-- **Status:** in_progress
+- [x] Produce and verify the declared milestone evidence
+- **Status:** complete
 
 ## Decisions Made
 

@@ -7,6 +7,10 @@
 ## Verified Facts
 
 - Milestone ID: `milestone-02-timing-core`.
+- `TimingSource`, `TemporalSupport`, and `ObservationTiming` now have one canonical core definition.
+- Timing normalization uses each atomic image envelope and excludes disabled measures.
+- Midpoint timing is represented by zero-duration support with a degraded flag.
+- Full CTest suite: 16/16 passed.
 
 ## Evidence-Based Inference
 
@@ -14,7 +18,7 @@
 
 ## Unresolved Items
 
-- Completion evidence has not yet been produced.
+- Completion evidence is prepared in the milestone close command.
 
 ## Decisions
 

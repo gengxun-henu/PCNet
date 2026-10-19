@@ -1,0 +1,14 @@
+{
+  "timing_source_enum": {
+    "detector_interval": 0,
+    "ephemeris_midpoint": 1,
+    "line_interpolation": 2,
+    "unavailable": 3
+  },
+  "normalization": "per atomic image envelope; internal gaps preserved",
+  "default_time_bins": 8,
+  "allowed_time_bins": [4, 32],
+  "midpoint": "represented as zero-duration support with degraded=true",
+  "disabled_measures": "excluded from model metrics and timing normalization",
+  "runtime_camera_fixture": "deferred to the next real cube/DetectorMap fixture task"
+}

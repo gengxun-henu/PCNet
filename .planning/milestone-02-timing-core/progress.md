@@ -8,8 +8,15 @@
 
 ### Initialized 2026-10-19
 
-- **Status:** pending
+- **Status:** complete
 - Created the durable milestone plan from the reviewed manifest.
+
+### Timing core execution 2026-10-19
+
+- Unified timing types under `pcnet/core/timing.hpp` and converted legacy headers to wrappers.
+- Added per-image timing normalization, midpoint/degraded representation, disabled-measure exclusion, and acquisition metadata fields.
+- Added `timing_contract_test`; full suite now has 16/16 passing tests.
+- Wrote `docs/validation/timing-report.json`.
 
 ## Test Results
 
