@@ -27,7 +27,7 @@ ImageQuality、PairQuality、NetworkQuality 指标和定义元数据覆盖 SPEC 
 
 ## Next Step
 
-Milestone complete; activate milestone-04-thinning after PR merge and local main synchronization.
+None — milestone complete.
 
 ## Current Phase
 

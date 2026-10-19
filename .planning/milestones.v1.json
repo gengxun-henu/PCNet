@@ -140,7 +140,7 @@
     {
       "id": "milestone-03-quality",
       "title": "三级模型感知质量评价",
-      "status": "in_progress",
+      "status": "complete",
       "dependencies": [
         "milestone-02-timing-core"
       ],
@@ -160,9 +160,43 @@
         "prerequisites": []
       },
       "last_session_date": "2026-10-19",
-      "last_close_outcome": null,
+      "last_close_outcome": "complete",
       "blocker": null,
-      "completion_evidence": null
+      "completion_evidence": {
+        "schema_version": 1,
+        "milestone_id": "milestone-03-quality",
+        "verified_at": "2026-10-19T06:26:05Z",
+        "git": {
+          "status": "clean",
+          "porcelain_v1_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "commit": "20d68e6f278c294542f1683316f86e5bdd955016"
+        },
+        "tests": [
+          {
+            "id": "quality-metrics",
+            "command": "ctest --test-dir build -R quality_report --output-on-failure",
+            "passed": 1,
+            "failed": 0,
+            "skipped": 0,
+            "exit_code": 0
+          },
+          {
+            "id": "quality-report-schema",
+            "command": "ctest --test-dir build -R report_schema --output-on-failure",
+            "passed": 1,
+            "failed": 0,
+            "skipped": 0,
+            "exit_code": 0
+          }
+        ],
+        "artifacts": [
+          {
+            "path": "docs/validation/quality-report.json",
+            "sha256": "06faa96c8b7c7c0af8e73bd1028d86166598e3e1ecdd12bc3f6b7b8e91e44c3e"
+          }
+        ],
+        "prerequisites": []
+      }
     },
     {
       "id": "milestone-04-thinning",
