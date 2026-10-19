@@ -17,9 +17,11 @@ int main(int argc, char **argv) {
   std::ostringstream buffer;
   buffer << input.rdbuf();
   const std::string report = buffer.str();
-  for (const char *key : {"environment_path", "library_path", "controlnet", "timing", "failures"}) {
+  for (const char *key : {"environment_path", "library_path", "compiler", "abi", "controlnet", "timing", "failures"}) {
     if (report.find(std::string("\"") + key + "\"") == std::string::npos)
       return fail(std::string("missing report field: ") + key);
   }
+  if (report.find("\"roundtrip\": true") == std::string::npos) return fail("ControlNet roundtrip was not verified");
+  if (report.find("\"pointer_bits\"") == std::string::npos) return fail("ABI pointer width was not recorded");
   return 0;
 }

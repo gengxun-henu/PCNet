@@ -2,7 +2,8 @@
   "environment_path": "/home/gengxun/miniconda3/envs/asp370",
   "library_path": "/home/gengxun/miniconda3/envs/asp370/lib/libisis10.0.0.so",
   "compiler": "12.4.0",
-  "controlnet": {"header_available": true, "library_present": true},
-  "timing": {"detector_map_headers_available": true},
+  "abi": {"pointer_bits": 64},
+  "controlnet": {"header_available": true, "library_present": true, "roundtrip": true},
+  "timing": {"detector_map_headers_available": true, "runtime_camera_context": false},
   "failures": []
 }
