@@ -6,11 +6,11 @@ static pcnet::NetworkView make_view() {
   pcnet::NetworkView view;
   view.images.push_back({0, "SN-1", "image.cub", 10, 20});
   view.points.resize(3);
-  for (std::uint32_t i = 0; i < 3; ++i) view.points[i] = {i, 1, i, 1};
+  for (std::uint32_t i = 0; i < 3; ++i) view.points[i] = {i, 0, i, 1};
   for (std::uint32_t i = 0; i < 3; ++i) {
     pcnet::TemporalSupport timing;
     timing.intervals.push_back({static_cast<double>(i), static_cast<double>(i) + 0.1, 1.0});
-    view.measures.push_back({0, i, 1.0, static_cast<double>(i), timing, 1.0, 1, pcnet::ReasonCode::None});
+    view.measures.push_back({0, i, 1.0, static_cast<double>(i), timing, 1.0, 0, pcnet::ReasonCode::None});
   }
   return view;
 }

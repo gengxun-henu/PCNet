@@ -11,9 +11,9 @@ std::string get_string(std::istream &in) { auto n = get<std::uint32_t>(in); std:
 void StorageWriter::write(const std::filesystem::path &path, const NetworkView &view, StorageOptions options) {
   if (auto error = view.validate(); !error.empty()) throw std::invalid_argument(error);
   std::ofstream out(path, std::ios::binary | std::ios::trunc); if (!out) throw std::runtime_error("cannot open PCNet storage");
-  out.write("PCNT", 4); put<std::uint16_t>(out, 1); put<std::uint8_t>(out, options.include_quality ? 1 : 0);
+  out.write("PCNT", 4); put<std::uint16_t>(out, 2); put<std::uint8_t>(out, options.include_quality ? 1 : 0);
   put<std::uint32_t>(out, view.images.size()); put<std::uint32_t>(out, view.points.size()); put<std::uint32_t>(out, view.measures.size());
-  for (const auto &image : view.images) { put(out, image.image_index); put_string(out, image.serial_number); put_string(out, image.name); put(out, image.width); put(out, image.height); }
+  for (const auto &image : view.images) { put(out, image.image_index); put_string(out, image.serial_number); put_string(out, image.name); put(out, image.width); put(out, image.height); put(out, image.acquisition_group_id); put(out, image.channel_id); put(out, image.acquisition_start); put(out, image.acquisition_end); }
   for (const auto &point : view.points) { put(out, point.point_index); put(out, point.state_flags); put(out, point.measure_begin); put(out, point.measure_count); put_string(out, point.id); }
   for (const auto &measure : view.measures) {
     put(out, measure.image_index); put(out, measure.point_index); put(out, measure.sample); put(out, measure.line); put(out, measure.quality_weight); put(out, measure.state_flags);
@@ -30,11 +30,11 @@ void StorageWriter::write(const std::filesystem::path &path, const NetworkView &
 NetworkView StorageReader::read(const std::filesystem::path &path) {
   std::ifstream in(path, std::ios::binary); if (!in) throw std::runtime_error("cannot open PCNet storage");
   char magic[4]; in.read(magic, 4); if (std::string(magic, 4) != "PCNT") throw std::runtime_error("invalid PCNet storage magic");
-  if (get<std::uint16_t>(in) != 1) throw std::runtime_error("unsupported PCNet storage version");
+  if (get<std::uint16_t>(in) != 2) throw std::runtime_error("unsupported PCNet storage version");
   const bool has_quality = get<std::uint8_t>(in) != 0; NetworkView view;
   auto ni = get<std::uint32_t>(in), np = get<std::uint32_t>(in), nm = get<std::uint32_t>(in);
   view.images.resize(ni); view.points.resize(np); view.measures.resize(nm);
-  for (auto &image : view.images) { image.image_index = get<std::uint32_t>(in); image.serial_number = get_string(in); image.name = get_string(in); image.width = get<std::uint32_t>(in); image.height = get<std::uint32_t>(in); }
+  for (auto &image : view.images) { image.image_index = get<std::uint32_t>(in); image.serial_number = get_string(in); image.name = get_string(in); image.width = get<std::uint32_t>(in); image.height = get<std::uint32_t>(in); image.acquisition_group_id = get<std::uint32_t>(in); image.channel_id = get<std::int32_t>(in); image.acquisition_start = get<double>(in); image.acquisition_end = get<double>(in); }
   for (auto &point : view.points) { point.point_index = get<std::uint32_t>(in); point.state_flags = get<std::uint8_t>(in); point.measure_begin = get<std::uint64_t>(in); point.measure_count = get<std::uint32_t>(in); point.id = get_string(in); }
   for (auto &measure : view.measures) { measure.image_index = get<std::uint32_t>(in); measure.point_index = get<std::uint32_t>(in); measure.sample = get<double>(in); measure.line = get<double>(in); measure.quality_weight = get<double>(in); measure.state_flags = get<std::uint8_t>(in); measure.reason_code = static_cast<ReasonCode>(get<std::uint16_t>(in)); measure.timing_source = static_cast<TimingSource>(get<std::uint8_t>(in)); measure.timing_degraded = get<std::uint8_t>(in) != 0; auto count = get<std::uint32_t>(in); measure.timing.intervals.resize(count); for (auto &interval : measure.timing.intervals) { interval.start = get<double>(in); interval.end = get<double>(in); interval.weight = get<double>(in); } }
   if (has_quality) { auto nc = get<std::uint32_t>(in); view.quality_columns.reserve(nc); for (std::uint32_t i = 0; i < nc; ++i) view.quality_columns.push_back(get_string(in)); view.quality_values.assign(nm, std::vector<double>(nc)); for (auto &row : view.quality_values) for (auto &value : row) value = get<double>(in); }

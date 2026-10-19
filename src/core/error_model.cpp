@@ -19,6 +19,33 @@ TemporalMoments temporal_moments(const TemporalSupport &support) {
   return result;
 }
 bool validate_time_bins(std::uint32_t bins) { return bins >= 4 && bins <= 32; }
+NormalizedTiming normalize_support(const TemporalSupport &support, double envelope_start, double envelope_end, bool degraded) {
+  NormalizedTiming result; result.degraded = degraded; result.envelope_start = envelope_start; result.envelope_end = envelope_end;
+  if (support.intervals.empty()) return result;
+  const double span = envelope_end - envelope_start;
+  for (const auto &interval : support.intervals) {
+    if (interval.end < interval.start || interval.weight < 0.0) throw std::invalid_argument("invalid temporal interval");
+    if (span > 0.0) result.support.intervals.push_back({2.0 * (interval.start - envelope_start) / span - 1.0, 2.0 * (interval.end - envelope_start) / span - 1.0, interval.weight});
+    else result.support.intervals.push_back({0.0, 0.0, interval.weight});
+  }
+  result.available = true; return result;
+}
+std::vector<NormalizedTiming> normalize_view_timing(const NetworkView &view, bool exclude_disabled) {
+  std::vector<double> starts(view.images.size(), std::numeric_limits<double>::infinity()), ends(view.images.size(), -std::numeric_limits<double>::infinity());
+  for (const auto &measure : view.measures) {
+    if (exclude_disabled && (measure.state_flags & kStateDisabled)) continue;
+    if (measure.image_index >= view.images.size()) continue;
+    for (const auto &interval : measure.timing.intervals) { starts[measure.image_index] = std::min(starts[measure.image_index], interval.start); ends[measure.image_index] = std::max(ends[measure.image_index], interval.end); }
+  }
+  std::vector<NormalizedTiming> result(view.measures.size());
+  for (std::size_t i = 0; i < view.measures.size(); ++i) {
+    const auto &measure = view.measures[i]; if (exclude_disabled && (measure.state_flags & kStateDisabled)) continue;
+    if (measure.image_index >= view.images.size() || !std::isfinite(starts[measure.image_index])) continue;
+    result[i] = normalize_support(measure.timing, starts[measure.image_index], ends[measure.image_index], measure.timing_degraded);
+  }
+  return result;
+}
+
 std::string error_model_name(ErrorModel model) { switch (model) { case ErrorModel::Constant: return "constant"; case ErrorModel::Velocity: return "velocity"; case ErrorModel::Acceleration: return "acceleration"; } return "unknown"; }
 namespace {
 using Matrix = std::vector<std::vector<double>>;
@@ -48,23 +75,21 @@ Matrix gram(const Matrix &rows) { const std::size_t n = rows.empty() ? 0 : rows[
 }
 ModelMetrics analyze_model(const NetworkView &view, ErrorModel model, const ModelConfig &config) {
   if (!validate_time_bins(config.time_bins)) throw std::invalid_argument("time_bins must be between 4 and 32");
-  ModelMetrics result; result.model = model;
-  double min_time = std::numeric_limits<double>::infinity(), max_time = -std::numeric_limits<double>::infinity();
-  for (const auto &measure : view.measures) for (const auto &interval : measure.timing.intervals) { min_time = std::min(min_time, interval.start); max_time = std::max(max_time, interval.end); }
-  const bool high_order = model != ErrorModel::Constant; const double span = max_time - min_time;
+  ModelMetrics result; result.model = model; const bool high_order = model != ErrorModel::Constant;
+  const auto normalized = normalize_view_timing(view);
   Matrix rows;
-  for (const auto &measure : view.measures) {
-    const auto moments = temporal_moments(measure.timing);
-    if (high_order && moments.total_weight == 0.0) { ++result.unavailable_measures; continue; }
+  for (std::size_t index = 0; index < view.measures.size(); ++index) {
+    const auto &measure = view.measures[index]; if (measure.state_flags & kStateDisabled) continue;
+    if (high_order && !normalized[index].available) { ++result.unavailable_measures; continue; }
     ++result.available_measures;
     double tau = 0.0, tau2 = 0.0;
-    if (moments.total_weight > 0.0 && span > 0.0) { tau = 2.0 * (moments.mean - min_time) / span - 1.0; tau2 = (4.0 * (moments.second - 2.0 * min_time * moments.mean + min_time * min_time) / (span * span)) - 4.0 * (moments.mean - min_time) / span + 1.0; }
+    if (high_order) { const auto moments = temporal_moments(normalized[index].support); tau = moments.mean; tau2 = moments.second; }
     if (model == ErrorModel::Constant) rows.push_back({1.0});
     else if (model == ErrorModel::Velocity) rows.push_back({1.0, tau});
     else rows.push_back({1.0, tau, tau2});
   }
   result.high_order_timing_complete = !high_order || result.unavailable_measures == 0;
-  const auto g = gram(rows); result.rank = rank_of(rows.empty() ? Matrix{} : rows);
+  const auto g = gram(rows); result.rank = rank_of(rows);
   if (g.empty() || result.rank == 0) { result.condition_number = std::numeric_limits<double>::infinity(); result.max_prediction_variance = std::numeric_limits<double>::infinity(); return result; }
   auto values = eigenvalues(g); double largest = *std::max_element(values.begin(), values.end()); double smallest = *std::min_element(values.begin(), values.end());
   result.condition_number = smallest > 1e-12 ? largest / smallest : std::numeric_limits<double>::infinity();

@@ -10,7 +10,7 @@
 | Order | ID | Title | Status | Dependencies | Plan | Last close |
 |---:|---|---|---|---|---|---|
 | 1 | `milestone-01-p0-isis` | P0 ISIS 10 / ControlNet / DetectorMap 核验 | `complete` | — | `.planning/milestone-01-p0-isis` | complete |
-| 2 | `milestone-02-timing-core` | 时间契约与核心模型完善 | `pending` | `milestone-01-p0-isis` | `.planning/milestone-02-timing-core` | — |
+| 2 | `milestone-02-timing-core` | 时间契约与核心模型完善 | `complete` | `milestone-01-p0-isis` | `.planning/milestone-02-timing-core` | complete |
 | 3 | `milestone-03-quality` | 三级模型感知质量评价 | `pending` | `milestone-02-timing-core` | `.planning/milestone-03-quality` | — |
 | 4 | `milestone-04-thinning` | 模型感知质量保持抽稀 | `pending` | `milestone-03-quality` | `.planning/milestone-04-thinning` | — |
 | 5 | `milestone-05-filter-writeback` | 可审计粗差过滤与 ISIS 写回 | `pending` | `milestone-04-thinning` | `.planning/milestone-05-filter-writeback` | — |
