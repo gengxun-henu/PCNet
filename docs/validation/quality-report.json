@@ -1,0 +1,10 @@
+{
+  "metric_sets": ["ImageQuality", "PairQuality", "NetworkQuality"],
+  "time_bins_default": 8,
+  "time_bins_allowed": [4, 32],
+  "image_metrics": ["time_coverage", "cross_track_coverage", "max_time_gap", "start_coverage", "middle_coverage", "end_coverage", "design_rank", "condition_number"],
+  "pair_metrics": ["n_valid_tracks", "n_independent_tracks", "along_track_span", "cross_track_span", "overlap_fallback"],
+  "network_metrics": ["n_images", "n_points", "n_measures", "n_components", "weak_images"],
+  "disabled_measures": "excluded",
+  "ground_overlap": "explicit fallback when footprint is unavailable"
+}

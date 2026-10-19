@@ -7,6 +7,10 @@
 ## Verified Facts
 
 - Milestone ID: `milestone-03-quality`.
+- ImageQuality now reports configured time bins, cross-track bins, start/middle/end coverage, active-measure counts, and model rank/condition.
+- PairQuality reports shared tracks, spans, and explicit overlap fallback.
+- NetworkQuality computes active-image connected components and weak images.
+- Full CTest suite: 16/16 passed.
 
 ## Evidence-Based Inference
 
@@ -14,7 +18,7 @@
 
 ## Unresolved Items
 
-- Completion evidence has not yet been produced.
+- Completion evidence is prepared in the milestone close command.
 
 ## Decisions
 
