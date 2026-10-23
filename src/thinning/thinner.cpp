@@ -1,5 +1,6 @@
 #include "pcnet/thinning/thinner.hpp"
 #include <algorithm>
+#include <map>
 #include <set>
 namespace pcnet {
 namespace {
@@ -7,12 +8,17 @@ std::uint64_t active_points(const NetworkView &view) { std::uint64_t count = 0; 
 std::uint64_t active_measures(const NetworkView &view) { std::uint64_t count = 0; for (const auto &m : view.measures) if (!(m.state_flags & kStateDisabled)) ++count; return count; }
 bool can_disable(const NetworkView &view, std::uint32_t point_index, std::uint64_t min_per_image, const ThinConfig &config) {
   std::vector<std::uint64_t> counts(view.images.size()); for (const auto &m : view.measures) if (!(m.state_flags & kStateDisabled) && m.point_index != point_index && m.image_index < counts.size()) ++counts[m.image_index]; for (auto count : counts) if (count < min_per_image) return false;
-  if (config.min_model_rank > 0) { auto candidate = view; for (auto &m : candidate.measures) if (m.point_index == point_index) m.state_flags |= kStateDisabled; auto metrics = analyze_model(candidate, config.model); if (metrics.rank < config.min_model_rank) return false; }
+  if (config.min_model_rank > 0) { auto candidate = view; for (auto &m : candidate.measures) if (m.point_index == point_index) m.state_flags |= kStateDisabled; auto metrics = analyze_model(candidate, config.model); if (metrics.rank < config.min_model_rank) return false; if (config.max_condition_number > 0.0 && metrics.condition_number > config.max_condition_number) return false; }
   return true;
 }
 }
 ThinResult thin(const NetworkView &input, const ThinConfig &config) {
   ThinResult result{input, true, {}}; std::set<std::uint32_t> protected_points(config.protected_points.begin(), config.protected_points.end());
+  if (config.protect_bridge_points) {
+    std::map<std::pair<std::uint32_t,std::uint32_t>, std::set<std::uint32_t>> connections;
+    for (const auto &point : input.points) { std::set<std::uint32_t> images; for (const auto &m : input.measures) if (!(m.state_flags & kStateDisabled) && m.point_index == point.point_index) images.insert(m.image_index); for (auto a=images.begin(); a!=images.end(); ++a) for (auto b=std::next(a); b!=images.end(); ++b) connections[{*a,*b}].insert(point.point_index); }
+    for (const auto &[edge, points] : connections) if (points.size() == 1) protected_points.insert(*points.begin());
+  }
   if (config.max_control_points && protected_points.size() > config.max_control_points) { result.feasible = false; result.conflicts.push_back("protected points exceed max_control_points"); return result; }
   auto disable_point = [&](std::uint32_t point_index) { auto &point = result.output.points.at(point_index); point.state_flags |= kStateDisabled; for (auto &m : result.output.measures) if (m.point_index == point_index) { m.state_flags |= kStateDisabled; m.reason_code = ReasonCode::DuplicateObservation; } };
   while (config.max_control_points && active_points(result.output) > config.max_control_points) {
