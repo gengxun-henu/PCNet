@@ -38,7 +38,7 @@ Phase 1
 ### Phase 1: Milestone execution
 
 - [ ] Produce and verify the declared milestone evidence
-- **Status:** pending
+- **Status:** in_progress
 
 ## Decisions Made
 

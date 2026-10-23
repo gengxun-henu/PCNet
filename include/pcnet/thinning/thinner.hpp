@@ -11,9 +11,13 @@ struct ThinConfig {
   std::uint64_t max_measures = 0;
   std::uint64_t min_active_points_per_image = 0;
   std::vector<std::uint32_t> protected_points;
-  bool allow_constraint_violations = false;
+  std::vector<std::uint64_t> protected_measures;
+  bool protect_bridge_points = true;
   ErrorModel model = ErrorModel::Constant;
   std::size_t min_model_rank = 0;
+  double max_condition_number = 0.0;
+  bool allow_constraint_violations = false;
+
 };
 struct ThinResult { NetworkView output; bool feasible = true; std::vector<std::string> conflicts; };
 ThinResult thin(const NetworkView &, const ThinConfig &);
